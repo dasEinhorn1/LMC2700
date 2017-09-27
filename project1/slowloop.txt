@@ -1,0 +1,25 @@
+
+ lda #0
+ sta $1 ; the number of loops run
+
+loop:
+ inx
+ cpx #$ff
+ bne loop
+ ldy $1
+ iny
+ sty $1
+ cpy #$01
+ bne loop
+ ldy $2
+ jsr drawFrame
+ jmp loop
+
+drawFrame:
+ lda #0
+ sta $200,y
+ iny
+ lda #$e
+ sta $200,y
+ sty $2
+ rts

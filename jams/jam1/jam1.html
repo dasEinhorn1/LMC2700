@@ -1,0 +1,181 @@
+<html>
+<head>
+<title>Jam 1</title>
+<style>
+     canvas {
+          border:1px solid black;
+          margin:20px;
+     }
+     img {
+          margin-left:20px;
+     }
+</style>
+</head>
+<!--
+
+**************************************************
+Welcome to LMC 2700 JAM PROJECT 1
+
+Instructions:
+
+(1) Find a painting by a well-known painter.
+Need some ideas? Try this: https://www.google.com/search?q=famous+paintings&tbm=isch
+
+(2) Make an "abstract" copy of that painting
+using Javascript Canvas functions (see below)
+
+NOTE: ONLY use drawing functions. Do NOT embed any image files!
+
+Obviously, your copy will not be photorealistic; find a way to
+copy the form, colors, and "spirit" of the painting with the tools available in
+the time allotted.
+
+Just open this file in a modern web browser to see your work. Reload to, uh, reload.
+
+(3) Embed the image of the painting you are copying in the HTML below using an <img> tag.
+
+(4) Submit this file to the T-Square JAM PROJECT 1 when you are done.
+
+(5) IF YOU WANT THIS JAM PROJECT TO COUNT AS YOUR "QUALITY" MARK, you must ALSO
+submit it to the T-Square JAM PROJECT - "QUALITY" 1 assignment.
+
+Go!
+**************************************************
+
+Adam Hayward
+
+-->
+<body>
+     <div id="main">
+     <!--
+
+     Want to change the dimensions of your canvas?
+     do it here:
+     vvvvv vvvvv -->
+     <canvas id="myCanvas" width="666" height="800"></canvas>
+
+     <!--
+
+     vvvv Embed to the painting you are copying here by its url -->
+     <br><img src="https://lakeimagesweb.artic.edu/iiif/757a076d-1cc0-8511-f8ca-aa4cba798cb2/full/!800,800/0/default.jpg">
+</body>
+
+<script>
+
+var elem = document.getElementById('myCanvas');
+var c = elem.getContext('2d'); // drawing context
+if (c) {
+     /*
+     Draw stuff here!
+
+     Want more canvas drawing functions?
+     http://www.w3schools.com/tags/ref_canvas.asp
+
+     Need a hex color picker?
+     http://html-color-codes.info/
+
+     Some simple samples appear below.
+     */
+
+     // sky
+     c.fillStyle = '#9fc2fc'; // blue
+     c.fillRect(0, 0, 666, 800);
+
+     // grass
+     c.fillStyle = "#fce99f";
+     c.fillRect(0, 525, 666, 800);
+
+     // house
+     c.fillStyle = "#fcf7e3";
+     c.strokeStyle = '#000000';
+     c.lineWidth = 1;
+     c.fillRect(0, 225, 666, 350);
+     c.strokeRect(0, 225, 666, 350);
+     // roof p2
+     c.fillStyle = '#fcf7e3';
+     c.strokeStyle = '#000000';
+     c.lineWidth = 1;
+     c.beginPath();
+     c.moveTo(333, 25);
+     c.lineTo(500, 225);
+     c.lineTo(166, 225);
+     c.lineTo(333,25);
+     c.fill();
+     c.stroke();
+     c.closePath()
+
+
+     // woman
+     // w body
+     c.strokeStyle = '#000000';
+     c.fillStyle = "#7f2f03";
+     c.fillRect(25, 550, 300, 300)
+     // w shoulders
+     c.beginPath();
+     c.moveTo(25, 550);
+     c.lineTo(175, 450);
+     c.lineTo(325, 550);
+     c.lineTo(25, 550);
+     c.fill();
+     c.closePath();
+
+     // w head
+     c.fillStyle = "#ffe1a5";
+     c.beginPath();
+     c.arc(175,375,100,0,2*Math.PI);
+     c.fill();
+     c.stroke();
+     c.closePath();
+
+     // man
+     c.fillStyle = "black";
+     c.beginPath();
+     c.moveTo(350, 450);
+     c.lineTo(640, 450);
+     c.lineTo(690, 800);
+     c.lineTo(300, 800);
+     c.fill();
+     c.stroke();
+     c.closePath();
+
+     // w head
+     c.fillStyle = "#ffe1a5";
+     c.beginPath();
+     c.arc(495,350,105,0,2*Math.PI);
+     c.fill();
+     c.stroke();
+     c.closePath();
+     // pitchfork
+     c.fillStyle = "#684747";
+     c.fillRect(400, 650, 30, 150);
+
+     // tips
+     //middle(415, 650);
+     var ptop = 400;
+     c.strokeStyle = "#6d6c6c";
+     c.lineWidth = 10;
+     c.beginPath();
+     c.arc(415,575,75,2*Math.PI,Math.PI);
+     c.moveTo(490,575);
+     c.lineTo(490,ptop);
+     c.moveTo(340,575);
+     c.lineTo(340,ptop);
+     c.moveTo(415,650);
+     c.lineTo(415,ptop);
+     c.stroke();
+     c.closePath();
+
+     // // circle
+     // c.fillStyle = '#ffff00';
+     // c.strokeStyle = '#000000';
+     // c.beginPath();
+     // c.arc(400,200,50,0,2*Math.PI);
+     // c.fill();
+     // c.stroke();
+     // c.closePath();
+     // c.scale(1,2);
+}
+
+</script>
+
+</html>

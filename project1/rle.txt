@@ -1,0 +1,234 @@
+; pointers for first chunk (at most 128 lines since y will max at 127)
+
+lda #<pic ; low byte first pic
+sta $0    ; stored at $0
+lda #>pic ; high byte first pic
+sta $1    ; stored at $1
+
+lda #0    ; low byte of screen ptr
+sta $2    ; stored at $2
+lda #2    ; high byte of screen ptr
+sta $3    ; stored at $3
+
+lda #0    ; makeshift flag to check whether the 2 part algorithm is complete
+sta $6    ; stored at 6$
+
+; main loop
+loop:
+ lda ($0),y ; load n (times to repeat the pixel)
+ cmp #0     ; check for the breaking condition (dcb 0 breaks)
+ beq loop2  ; if y has maxed out, we go to the second array
+ tax        ; put the repeat count in x
+ iny        ; increment y to get the color associated
+ lda ($0),y ; load in the color
+ iny        ; increment y again to go to the next line of the table
+
+; draw from compressed tables
+rlecomp:
+ jsr draw     ; prints picture onto the screen
+ dex          ; subtract from x
+ cpx #0       ; if x is zero
+ beq loop     ; return to the main loop
+ jmp rlecomp  ; keep printing pixels of the current color
+
+; plot pixel
+draw:
+ sty $4     ; store the current y and load the other y for this routine
+ ldy $5
+ sta ($2),y ; actually plot the pixel
+ iny        ; get ready for the next pixel
+ cpy #00    ; if y has wrapped around
+ beq next   ; increment the address and reset y
+ sty $5     ; save y and load the old one
+ ldy $4
+ rts
+
+next:
+ ldy #0     ; reset y
+ inc $03    ; but increment the address
+ sty $5     ; save the y used to get the screen position
+ ldy $4     ; load the y used to get through the array
+ rts        ; keep drawing
+
+; since two arrays required (table length > 127) this loop is needed
+loop2:
+ lda $6     ; load the memory dedicated to showing a first or second loop
+ cmp #1     ; if this loop ran already ($6 was set to 1)
+ beq done   ; we are done drawing Earth
+ tax        ; transfer a to x
+ inx        ; increment it
+ stx $6     ; store it back in stx
+
+ lda #<pic2 ; low byte to second part of picture
+ sta $0     ; store the pointer in place of the old one
+ lda #>pic2 ; high byte to second part of picture
+ sta $1     ; store in place of old high byte
+ ldy #0     ; reset y to zero in preparation of next loop
+ jmp loop   ; run rle algorithm on the rest of the data
+
+
+; This is all of the data for the RLE Algorithm to print Earth
+; dcb <n>, <clr> means repeat clr on the screen in a line n times
+; Each array can be no longer than 128 lines, since the y register cannot hold
+;   values above 127.
+; dcb 0 marks the end of the array
+; this algorithm is featured as 'rle' under the 6502asm examples
+; I generated these tables using python to analyze one huge dcb table I made
+pic:
+ dcb 11, 0
+ dcb 10, 14
+ dcb 20, 0
+ dcb 14, 14
+ dcb 16, 0
+ dcb 14, 14
+ dcb 2, 5
+ dcb 2, 14
+ dcb 13, 0
+ dcb 8, 14
+ dcb 3, 5
+ dcb 4, 14
+ dcb 2, 5
+ dcb 3, 14
+ dcb 11, 0
+ dcb 12, 5
+ dcb 4, 14
+ dcb 1, 5
+ dcb 5, 14
+ dcb 9, 0
+ dcb 12, 5
+ dcb 10, 14
+ dcb 2, 5
+ dcb 7, 0
+ dcb 1, 14
+ dcb 12, 5
+ dcb 9, 14
+ dcb 4, 5
+ dcb 5, 0
+ dcb 2, 14
+ dcb 11, 5
+ dcb 9, 14
+ dcb 5, 5
+ dcb 1, 14
+ dcb 4, 0
+ dcb 1, 14
+ dcb 12, 5
+ dcb 9, 14
+ dcb 5, 5
+ dcb 1, 14
+ dcb 3, 0
+ dcb 2, 14
+ dcb 8, 5
+ dcb 2, 14
+ dcb 2, 5
+ dcb 9, 14
+ dcb 4, 5
+ dcb 3, 14
+ dcb 2, 0
+ dcb 2, 14
+ dcb 8, 5
+ dcb 2, 14
+ dcb 1, 5
+ dcb 17, 14
+ dcb 1, 0
+ dcb 4, 14
+ dcb 1, 5
+ dcb 1, 14
+ dcb 5, 5
+ dcb 19, 14
+ dcb 2, 5
+ dcb 4, 14
+ dcb 1, 5
+ dcb 2, 14
+ dcb 4, 5
+ dcb 4, 14
+ dcb 2, 5
+ dcb 12, 14
+ dcb 3, 5
+ dcb 7, 14
+ dcb 5, 5
+ dcb 16, 14
+ dcb 4, 5
+ dcb 8, 14
+ dcb 5, 5
+ dcb 2, 14
+ dcb 4, 5
+ dcb 8, 14
+ dcb 5, 5
+ dcb 9, 14
+ dcb 4, 5
+ dcb 1, 14
+ dcb 6, 5
+ dcb 7, 14
+ dcb 5, 5
+ dcb 11, 14
+ dcb 10, 5
+ dcb 6, 14
+ dcb 5, 5
+ dcb 13, 14
+ dcb 10, 5
+ dcb 5, 14
+ dcb 4, 5
+ dcb 1, 14
+ dcb 1, 5
+ dcb 11, 14
+ dcb 11, 5
+ dcb 5, 14
+ dcb 3, 5
+ dcb 2, 14
+ dcb 1, 5
+ dcb 10, 14
+ dcb 12, 5
+ dcb 6, 14
+ dcb 1, 5
+ dcb 13, 14
+ dcb 12, 5
+ dcb 7, 14
+ dcb 1, 0
+ dcb 13, 14
+ dcb 11, 5
+ dcb 6, 14
+ dcb 2, 0
+ dcb 13, 14
+ dcb 11, 5
+ dcb 6, 14
+ dcb 3, 0
+ dcb 13, 14
+ dcb 9, 5
+ dcb 6, 14
+ dcb 4, 0
+ dcb 14, 14
+ dcb 6, 5
+ dcb 8, 14
+ dcb 5, 0
+ dcb 13, 14
+ dcb 4, 5
+ dcb 0
+
+pic2:
+ dcb 9, 14
+ dcb 7, 0
+ dcb 12, 14
+ dcb 4, 5
+ dcb 8, 14
+ dcb 9, 0
+ dcb 11, 14
+ dcb 3, 5
+ dcb 8, 14
+ dcb 11, 0
+ dcb 10, 14
+ dcb 3, 5
+ dcb 7, 14
+ dcb 13, 0
+ dcb 9, 14
+ dcb 3, 5
+ dcb 6, 14
+ dcb 16, 0
+ dcb 8, 14
+ dcb 1, 5
+ dcb 5, 14
+ dcb 20, 0
+ dcb 10, 14
+ dcb 0
+
+done:
+ ;The program is now ended
