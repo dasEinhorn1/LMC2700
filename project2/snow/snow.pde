@@ -13,9 +13,8 @@ Path path;
 void setup() {
   //size(int(dimensions.x), int(dimensions.y));
   size(800,800);
-  s = new Slope(5);
+  s = new Slope(50);
   boarder = new Snowboarder(width / 2, 200);
-  background(0);
 }
 
 void update() {
@@ -30,6 +29,7 @@ void draw() {
   if (!s.onSlope(boarder.pos)) {
     reset();
   }
+  background(172, 198, 224);
   update();
   s.draw();
   boarder.draw();

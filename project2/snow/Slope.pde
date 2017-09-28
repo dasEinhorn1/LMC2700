@@ -1,5 +1,5 @@
 class Slope {
-  Tree[] trees;
+  BST<Tree> trees;
   Path path;
   
   Slope(int numTrees) {

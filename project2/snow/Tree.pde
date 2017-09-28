@@ -1,7 +1,7 @@
 color closeTreeColor = color(0, 77, 0);
 color farTreeColor = color(32, 96, 64);
 
-class Tree {
+class Tree implements Comparable {
   PVector pos;
   PVector dim;
 
@@ -25,5 +25,9 @@ class Tree {
     fill(treeColor);
     triangle(pos.x, pos.y - dim.y, pos.x - dim.x / 2.5, pos.y - dim.y / 2, pos.x + dim.x / 2.5, pos.y - dim.y / 2);
     triangle(pos.x, pos.y - 3 * dim.y / 4, pos.x - dim.x / 2, pos.y - dim.y / 4, pos.x + dim.x / 2, pos.y - dim.y / 4);
+  }
+  
+  int compareTo(Tree t) {
+    return int(t.pos.y - pos.y);
   }
 }
