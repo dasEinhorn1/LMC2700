@@ -1,33 +1,43 @@
 PVector dimensions = new PVector(800, 800);
 boolean mDown;
-float M_FORCE = .1;
-float DRAG = 0.05;
-float g = .1; // gravitational const.
+float M_FORCE = .2;
+float DRAG = 0.07;
+float g = .2; // gravitational const.
 
-//Slope s;
+Slope s;
 Snowboarder boarder;
-//Tree[] trees;
 //Lift lift;
 
-//Path path;
+Path path;
 
 void setup() {
   //size(int(dimensions.x), int(dimensions.y));
   size(800,800);
-  
-  boarder = new Snowboarder(100, 200);
+  s = new Slope(5);
+  boarder = new Snowboarder(width / 2, 200);
   background(0);
 }
 
 void update() {
-  //frames - frameCount;
   print('.');
-  boarder.update(new PVector(mouseX, mouseY), 1);
+  PVector mousePos = new PVector(mouseX, mouseY);
+  boarder.update(mousePos);
+  s.update(boarder.pos, boarder.angle());
+  println("ON Slope? " + s.onSlope(boarder.pos));
 }
 
 void draw() {
+  if (!s.onSlope(boarder.pos)) {
+    reset();
+  }
   update();
+  s.draw();
   boarder.draw();
+  s.drawTrees();
+}
+
+void reset() {
+  boarder = new Snowboarder(width / 2, 200);
 }
 
 void mousePressed() {
