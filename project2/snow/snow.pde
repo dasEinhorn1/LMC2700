@@ -1,7 +1,8 @@
 PVector dimensions = new PVector(800, 800);
 boolean mDown;
-
-float g = .01; // gravitational const.
+float M_FORCE = .1;
+float DRAG = 0.05;
+float g = .1; // gravitational const.
 
 //Slope s;
 Snowboarder boarder;
@@ -19,8 +20,9 @@ void setup() {
 }
 
 void update() {
+  //frames - frameCount;
   print('.');
-  boarder.update(new PVector(mouseX, mouseY), mDown);
+  boarder.update(new PVector(mouseX, mouseY), 1);
 }
 
 void draw() {
