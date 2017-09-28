@@ -1,15 +1,15 @@
-class Snowboarder {
+class Sled {
   PVector pos;
   float startH;
   PVector velocity;
   PVector force; // force on the border (angle, r)
   float size; 
   
-  Snowboarder(float x, float y) {
+  Sled(float x, float y) {
     this(x, y, 10);
   }
   
-  Snowboarder(float x, float y, float sz) {
+  Sled(float x, float y, float sz) {
     pos = new PVector(x, y);
     startH = y;
     velocity = new PVector(0, 0.00001);
@@ -22,6 +22,9 @@ class Snowboarder {
     fill(200);
     
     rect(pos.x - size / 2, pos.y - size / 2, size, size);
+    if (DEBUG) {
+      getBoundingRect().draw();
+    }
   }
   
   float getDh() {
@@ -77,6 +80,6 @@ class Snowboarder {
   }
   
   BoundingRect getBoundingRect() {
-    return new BoundingRect(pos.x, pos.y, size, size);
+    return new BoundingRect(pos.x - size / 2, pos.y - size / 2, size, size);
   }
 }

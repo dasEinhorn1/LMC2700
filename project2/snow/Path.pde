@@ -1,4 +1,3 @@
-import java.util.LinkedList;
 class Path {
   int maxLength;
   int shapeType;
@@ -18,8 +17,8 @@ class Path {
     add(createShape(shapeType, x, y, 1 + 5 * sin(a), 1 + 5 * cos(a)));
   }
   
-  void add(PShape pathPt) {   
-    pathPt.setFill(230);
+  void add(PShape pathPt) {  
+    pathPt.setFill(200);
     if (maxLength > 0 && points.size() >= maxLength) {
       points.add(pathPt);
       points.remove();
@@ -29,7 +28,6 @@ class Path {
   }
   
   void draw() {
-    fill(250);
     for (PShape pt : points) {
       shape(pt);
     }
