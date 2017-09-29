@@ -1,23 +1,22 @@
-import java.util.Collections;
-import java.util.Comparator;
 class Slope { 
   LinkedList<Tree> trees;
   LinkedList<BoundingRect> watchCollide;
   Path path;
-  
-  float startWidth = 5;
+  LinkedList<Path> oldPaths;
+  float startWidth = 30;
   boolean collisionDetected = false;
   
-  Slope(int numTrees) {
+  Slope() {
     trees = new LinkedList<Tree>();
-    for (int i = 0; i < numTrees; i++) {
+    for (int i = 0; i < NUM_TREES; i++) {
       float x;
-      if (i < numTrees / 2) {
+      if (i < NUM_TREES / 2) {
         x = random((width - startWidth)/2);
       } else {
         x = random((width + startWidth)/2, width);
       }
-      float y = random(getEdgeAt(x), getTreeLineAt(x));
+      float yLim = (GET_MOM_MODE) ? height : getTreeLineAt(x);
+      float y = random(getEdgeAt(x), yLim);
       trees.add(new Tree(x, y));
     }
     Collections.sort(trees, new Comparator<Tree>(){
@@ -27,6 +26,7 @@ class Slope {
         }
     });
     path = new Path();
+    oldPaths = new LinkedList<Path>();
   }
   
   void draw() {
@@ -35,6 +35,9 @@ class Slope {
     
     if (DEBUG) {
       drawTreeLineBounds();
+    }
+    for (Path p : oldPaths) {
+        p.draw();
     }
     path.draw();
     
@@ -56,8 +59,25 @@ class Slope {
   }
   
   void update(Sled sled, float angle) {
-    path.add(sled.pos.x, sled.pos.y, angle);
+    path.add(sled.pos.x, sled.pos.y, angle, sled.rSize());
     collisionDetected = !onSlope(sled.pos) || checkTreeCollisions(sled);
+    if (collisionDetected) {
+      oldPaths.add(path);
+      path = new Path();
+    }
+  }
+  
+  void updatePaths() {
+    LinkedList<Path> killList = new LinkedList<Path>();
+    for (Path p : oldPaths) {
+      boolean dead = p.fade();
+      if (dead) {
+        killList.add(p);
+      }
+    }
+    while (!killList.isEmpty()) {
+      oldPaths.remove(killList.remove());
+    }
   }
   
   float getEdgeAt(float x) {

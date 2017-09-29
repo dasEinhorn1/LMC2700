@@ -7,11 +7,11 @@ class Tree implements Comparable {
   float scale;
 
   Tree(float x, float y) {
-    this(x, y, map(y, 0, height, .5, 6));
+    this(x, y, scaleFromY(y));
   }
 
   Tree(float x, float y, float scl) {
-    dim = new PVector(10, 20);
+    dim = new PVector(20, 40);
     dim.mult(scl);
     pos = new PVector(x,y); 
     this.scale = scl;
@@ -22,12 +22,12 @@ class Tree implements Comparable {
     strokeWeight(dim.x / 4);
     strokeCap(0);
     line(pos.x, pos.y, pos.x, pos.y - dim.y / 2);
-    noStroke();
     color treeColor = lerpColor(farTreeColor, closeTreeColor, pos.y / (height * 1.5));
     fill(treeColor);
-    strokeWeight(dim.x / 4);
-    triangle(pos.x, pos.y - dim.y, pos.x - dim.x / 2.5, pos.y - dim.y / 2, pos.x + dim.x / 2.5, pos.y - dim.y / 2);
+    strokeWeight(0.1);
+    stroke(0);
     triangle(pos.x, pos.y - 3 * dim.y / 4, pos.x - dim.x / 2, pos.y - dim.y / 4, pos.x + dim.x / 2, pos.y - dim.y / 4);
+    triangle(pos.x, pos.y - dim.y, pos.x - dim.x / 2.5, pos.y - dim.y / 2, pos.x + dim.x / 2.5, pos.y - dim.y / 2);
     if (DEBUG) {
       getBoundingRect().draw();
     }

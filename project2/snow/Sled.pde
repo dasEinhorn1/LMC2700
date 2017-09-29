@@ -1,10 +1,13 @@
+color[] sweaterColors = {color(178, 79, 255), color(27, 78, 150), color(33, 165, 123)};
 class Sled {
   PVector pos;
   float startH;
   PVector velocity;
   PVector force; // force on the border (angle, r)
   float size; 
-  
+  color sweaterColor;
+  color hatColor;
+  float scl;
   Sled(float x, float y) {
     this(x, y, 10);
   }
@@ -15,16 +18,38 @@ class Sled {
     velocity = new PVector(0, 0.00001);
     force = new PVector(3 * PI / 2, g);
     size = sz;
+    sweaterColor = sweaterColors[int(random(sweaterColors.length))];
+    hatColor = sweaterColors[int(random(sweaterColors.length))];
+    scl = scaleFromY(y);
   }
   
   void draw() {
-    noStroke();
-    fill(200);
+    strokeWeight(1);
+    fill(255, 110, 81);
+    stroke(0);
+    pushMatrix();
+    translate(pos.x, pos.y);
+    rotate(velocity.heading() - HALF_PI);
+    // sled base
+    rect(-(rSize()-5)/2, -(rSize())/2, rSize()-5, rSize());
+    // jacket
+    fill(sweaterColor);
+    arc(0, rSize()/8, 0.5 * rSize(), 0.75 * rSize(), -PI, 0, PIE);
+    //front thing
+    fill(255, 110, 81);
+    arc(0, rSize()/2, rSize()-5, rSize(), -PI, 0, PIE);
+    //head
+    fill(255, 219, 175);
+    ellipse(0, -rSize()/2 + rSize()/8, 0.5 * rSize(), 0.5 * rSize());
+    //hat
+    fill(hatColor);
+    arc(0, -rSize()/2 + rSize()/8, 0.5 * rSize(), 0.5 * rSize(), -PI, 0, PIE);
+    popMatrix();
     
-    rect(pos.x - size / 2, pos.y - size / 2, size, size);
     if (DEBUG) {
       getBoundingRect().draw();
     }
+    
   }
   
   float getDh() {
@@ -46,7 +71,11 @@ class Sled {
   
   PVector forceMouse(float mX) {
     float xRel = mX - width/2; // relative to center
-    float xReduced = map(xRel, -width/2, width/2, M_FORCE, -M_FORCE);
+    float xReduced;
+    if (abs(xRel) > width/2 - X_INPUT_MARGIN) {
+      xReduced = M_FORCE * xRel/abs(xRel);
+    }
+    xReduced = map(xRel, X_INPUT_MARGIN -(width/2), (width/2) - X_INPUT_MARGIN, M_FORCE, -M_FORCE);
     println(xReduced);
     // int dir = (abs(xRel) == xRel) ? 1 : -1; // 1 if mouse is to the left
     float aVel = velocity.heading();
@@ -76,10 +105,14 @@ class Sled {
     velocity.add(force.copy().mult(dt));
 
     pos.add(velocity.copy().mult(dt));
-    println("V: " + velocity);
+    scl = scaleFromY(pos.y);
+  }
+  
+  float rSize() { // size with y scale
+    return size * scl;
   }
   
   BoundingRect getBoundingRect() {
-    return new BoundingRect(pos.x - size / 2, pos.y - size / 2, size, size);
+    return new BoundingRect(pos.x - rSize() / 2, pos.y-rSize()/2, rSize(), rSize());
   }
 }
