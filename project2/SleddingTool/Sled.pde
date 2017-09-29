@@ -76,10 +76,10 @@ class Sled {
       xReduced = M_FORCE * xRel/abs(xRel);
     }
     xReduced = map(xRel, X_INPUT_MARGIN -(width/2), (width/2) - X_INPUT_MARGIN, M_FORCE, -M_FORCE);
-    println(xReduced);
+    debugPrintln(xReduced);
     // int dir = (abs(xRel) == xRel) ? 1 : -1; // 1 if mouse is to the left
     float aVel = velocity.heading();
-    println("VEL ANGLE: " + aVel);
+    debugPrintln("VEL ANGLE: " + aVel);
     PVector mF = PVector.fromAngle(aVel + (HALF_PI));
     mF.setMag(xReduced);
     return mF;

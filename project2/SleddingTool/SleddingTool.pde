@@ -91,7 +91,7 @@ void update() {
   sled.update(mousePos);
   s.update(sled, sled.angle());
   if (s.collisionDetected) {
-    println("RESET");
+    debugPrintln("RESET");
     climbBackUp();
     started = false;
   }
@@ -126,10 +126,8 @@ void update() {
 }
 
 void draw() {
-  color c1 = color(15, 47, 94);
   color c2 = color(32, 94, 165);
   background(c2);
-  //setGradient(0, 0, width, height, c1, c2, 1);
   update();
   s.draw();
   sled.draw();
@@ -148,6 +146,10 @@ float scaleFromY(float y) {
   return map(y, 0, height, .5, 4);
 }
 
+void debugPrintln(Object o) {
+  if (DEBUG) println(o);
+}
+
 void mousePressed() {
   mDown = true;
   if (!started) {
@@ -156,23 +158,4 @@ void mousePressed() {
 }
 void mouseReleased() {
   mDown = false;
-}
-
-void setGradient(int x, int y, float w, float h, color c1, color c2, int axis ) {
-  if (axis == 1) {  // Top to bottom gradient
-    for (int i = y; i <= y+h; i++) {
-      float inter = map(i, y, y+h, 0, 1);
-      color c = lerpColor(c1, c2, inter);
-      stroke(c);
-      line(x, i, x+w, i);
-    }
-  }  
-  else if (axis == 2) {  // Left to right gradient
-    for (int i = x; i <= x+w; i++) {
-      float inter = map(i, x, x+w, 0, 1);
-      color c = lerpColor(c1, c2, inter);
-      stroke(c);
-      line(i, y, i, y+h);
-    }
-  }
 }

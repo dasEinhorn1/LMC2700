@@ -19,26 +19,26 @@ synchronized public void win_draw1(PApplet appc, GWinData data) { //_CODE_:optio
 } //_CODE_:optionsWindow:994355:
 
 synchronized public void optionsClick(PApplet appc, GWinData data, MouseEvent mevent) { //_CODE_:optionsWindow:769170:
-  println("optionsWindow - mouse event " + millis());
+  debugPrintln("optionsWindow - mouse event " + millis());
 } //_CODE_:optionsWindow:769170:
 
 public void restartSnow(GButton source, GEvent event) { //_CODE_:restart_button:577211:
-  println("restart_button - GButton >> GEvent." + event + " @ " + millis());
+  debugPrintln("restart_button - GButton >> GEvent." + event + " @ " + millis());
   totalReset();
 } //_CODE_:restart_button:577211:
 
 public void changeSnowFall(GSlider source, GEvent event) { //_CODE_:slider1:536945:
-  println("slider1 - GSlider >> GEvent." + event + " @ " + millis());
+  debugPrintln("slider1 - GSlider >> GEvent." + event + " @ " + millis());
   SNOW_RATE = source.getValueI();
 } //_CODE_:slider1:536945:
 
 public void getMom(GCheckbox source, GEvent event) { //_CODE_:treeCrazy:327039:
-  println("treeCrazy - GCheckbox >> GEvent." + event + " @ " + millis());
+  debugPrintln("treeCrazy - GCheckbox >> GEvent." + event + " @ " + millis());
   GET_MOM_MODE = source.isSelected();
 } //_CODE_:treeCrazy:327039:
 
 public void changeTreeNum(GSlider source, GEvent event) { //_CODE_:slider2:636173:
-  println("slider2 - GSlider >> GEvent." + event + " @ " + millis());
+  debugPrintln("slider2 - GSlider >> GEvent." + event + " @ " + millis());
   NUM_TREES = source.getValueI(); 
 } //_CODE_:slider2:636173:
 

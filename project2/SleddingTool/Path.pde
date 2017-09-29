@@ -43,7 +43,7 @@ class Path {
   }
   
   boolean fade() {
-    println(FADE_RATE);
+    debugPrintln(FADE_RATE);
     fadeCount += FADE_RATE;
     if (fadeCount >= 255) {
       dead = true;

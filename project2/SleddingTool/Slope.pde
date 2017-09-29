@@ -35,6 +35,7 @@ class Slope {
     
     if (DEBUG) {
       drawTreeLineBounds();
+      drawSlopeLineBounds();
     }
     for (Path p : oldPaths) {
         p.draw();
@@ -50,14 +51,21 @@ class Slope {
   }
   
   void drawTreeLineBounds() {
-    fill(255,0,0);
+    fill(255,0,255);
     noStroke();
     for (int x = 0; x < 801; x += 10) {
         float y = getTreeLineAt(x);
         ellipse(x, y, 5, 5);
     }
   }
-  
+  void drawSlopeLineBounds() {
+    fill(255,0,0);
+    noStroke();
+    for (int x = 0; x < 801; x += 10) {
+        float y = getEdgeAt(x);
+        ellipse(x, y, 5, 5);
+    }
+  }
   void update(Sled sled, float angle) {
     path.add(sled.pos.x, sled.pos.y, angle, sled.rSize());
     collisionDetected = !onSlope(sled.pos) || checkTreeCollisions(sled);
