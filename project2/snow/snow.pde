@@ -1,11 +1,12 @@
 /*
  *    I am from New Hampshire, so I spent the vast majority of my life braving the cold just biding my time
- * until it finally got warm enough to wear shorts. (I also have a summer birthday, so that definitely 
- * played a role in my eagerness to be warm again. That said, there was one thing about the winter that my friends
- * and I all loved to do. Sledding was the one thing that made winter truly remarkable for me. When I was sledding,
- * I was a trailblazer, literally carving my way through the snow, finding creative (sometimes dangerous) paths down
- * the hill, all so I could just run right back up to try it again. By the end of the day, if it hadn't been snowing 
- * too hard, we could always look back on the trails we left on the hillsides. 
+ * until it finally got warm enough to wear shorts. (I also have a summer birthday, so that definitely played a 
+ * role in my eagerness to be warm again.) That said, there was one thing about the winter that my friends and I
+ * all loved: sledding. When I was sledding, I was a trailblazer, literally carving my way through the snow,
+ * finding creative (sometimes dangerous) paths down the hill, all so I could just run right back up to try
+ * it again. By the end of the day, if it hadn't been snowing too hard, we could always look back on the trails  
+ * we left on the hillsides.
+ *  
  *
  *    For this project, I attempted to model that experience of 'drawing' trails in the snow during a long afternoon of sledding.
  * I modeled the physics of a sled going downhill, including drag, turning, and (of course) gravity, and added snow to slowly fade
